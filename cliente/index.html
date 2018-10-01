@@ -3,11 +3,13 @@
 		<title>
 			Card Battle
 		</title>
-		<script src="../../server/modelo.js"></script>
+		<script src="./modelo.js"></script>
 	</head>
 	<body>
 		<script>
 			juego = new Juego();
+			usr1 = new Usuario("pepe",juego);
+			juego.agregarUsuario(usr1);
 		</script>
 	</body>
 </html>
