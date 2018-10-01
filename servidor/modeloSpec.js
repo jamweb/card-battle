@@ -7,11 +7,12 @@ describe("El juego de las cartas...", function() {
 
   beforeEach(function() {
     juego = new modelo.Juego();
-    usr = new modelo.Usuario("pepe")
+    usr1 = new modelo.Usuario("pepe");
+    usr2 = new modelo.Usuario("juan");
    // cartalobo= new Carta("lobo",9,9,9);
   });
 
-  it("deberia tener una coleccion de cartas", function() {
+ it("deberia tener una coleccion de cartas", function() {
     
     expect(juego.cartas).toBeDefined();
     expect(juego.cartas.length).toEqual(30);
@@ -22,25 +23,33 @@ describe("El juego de las cartas...", function() {
 
   it("el usuario tiene un mazo", function() {
     
-    expect(usr.mazo).toBeDefined();
-    expect(usr.mazo.length).toEqual(0);
+    expect(usr1.mazo).toBeDefined();
+    expect(usr1.mazo.length).toEqual(0);
+    expect(usr2.mazo).toBeDefined();
+    expect(usr2.mazo.length).toEqual(0);
   });
+ 
 
-  it("Agrego el usuario pepe al juego", function() {
+  it("Agrego dos usuarios al juego", function() {
     
-    juego.agregarUsuario(usr);
-    expect(juego.usuarios.length).toEqual(1);
+    juego.agregarUsuario(usr1);
+    juego.agregarUsuario(usr2);
+    expect(juego.usuarios.length).toEqual(2);
     expect(juego.usuarios[0].nombre).toEqual("pepe");
-    expect(usr.mazo.length).toEqual(30);   
+    expect(juego.usuarios[1].nombre).toEqual("juan");
+    expect(usr1.mazo.length).toEqual(30); 
+    expect(usr2.mazo.length).toEqual(30);  
   })
 
-  /*it("El usuario tiene una mano vacia inicialmente", function() {
+
+
+  it("El usuario tiene una mano vacia inicialmente", function() {
     
-    juego.agregarUsuario(usr);
-    expect(juego.usuarios.length).toEqual(1);
-    expect(juego.usuarios[0].mano).toEqual(0);
-    expect(usr.mazo.length).toEqual(30);   
-  })*/
+    expect(usr1.mano).toBeDefined();
+    expect(usr1.mano.length).toEqual(0);
+    expect(usr2.mano).toBeDefined();
+    expect(usr2.mano.length).toEqual(0);  
+  })
 
   /*
   it("Agrego carta lobo al juego", function() {
