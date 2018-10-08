@@ -1,14 +1,19 @@
 function Juego(){
 	this.cartas=[];
 	this.usuarios=[];
+	this.partidas=[];
+
 	this.agregarCarta=function(carta){
 		this.cartas.push(carta);
 	}
+
 	this.agregarUsuario=function(usuario){
 		usuario.mazo=this.cartas;
 		usuario.juego=this;
 		this.usuarios.push(usuario);
 	}
+
+	// nombre, vidas, ataque, coste
 	this.crearColeccion=function(){
 		//10 ataque 5 coste 3 vida 5
 		for (var i = 0; i < 10; i++) {
@@ -16,7 +21,7 @@ function Juego(){
 		}
 		//10 ataque 3 coste 5 vida 10
 		for (var i = 0; i < 10; i++) {
-			this.cartas.push(new Carta("guerrero"+i,10,3,5));
+			this.cartas.push(new Carta("guerrero"+i,3,3,2));
 		}
 		//10 ataque 2 coste 1 vida 2
 		for (var i = 0; i < 10; i++) {
@@ -24,66 +29,128 @@ function Juego(){
 		}
 		
 	}
-	this.crearColeccion();
 	
 
+	this.agregarPartida=function(partida){
+		this.partidas.push(partida);
+
+	}
+
+	this.crearPartida=function(nombre,usuario){
+		var partida = new Partida(nombre);
+		this.agregarPartida(partida);
+		usuario.asignarUsuario(usuario);
+	}
 
 
-	/*this.obtenerColeccionInicial=function(){
-		for (var i = 0; i < 10; i++) {
-			this.mazo.push(cartas[i]);
-		}
-	}*/
-
-	/*this.crearPartida=function(){
-
-	}*/
-}
-
-function Usuario(nombre){
-	this.nombre=nombre;
-	this.juego=undefined;
-	this.mazo=[];
-	this.mano=[];
-	
-}
-
-/*
-function Mazo(nombre){
-	this.nombre=nombre;
-	this.cartas=[];
-	this.agregarCartas = function(carta){
-		for (var i = 0; i < 10; i++) {
-			this.cartas.push(carta)
+	this.asignarPartida=function(nombre, usuario){
+		for (var i=0;i<this.partidas.length;i++){
+			if (this.partidas[i].nombre==nombre){
+				this.partidas[i].asignarUsuario(usuario);
+			}
 		}
 	}
-}*/
 
-function Carta(nombre,vidas,ataque,coste){
-	this.vidas=vidas;
-	this.ataque=ataque;
-	this.nombre=nombre;
-	this.coste=coste;
+
+	/*this.agregarTablero=function(tablero){
+		this.tablero=tablero;
+	}*/
+
+
+	// Construccion del juego
+	this.crearColeccion();
+	//this.agregarTablero(new Tablero());
+
 }
-
-
-
-/*
-function Partida(nombre){
-	/*var usr = new Usuario("pepe");
-	var maz = new Mazo("aleatorio");
-	maz.agregarCartas(cartas);
-	usr.obtenerMazo();
-
-	this.agregarUsuario(nombre1);
-	this.agregarUsuario(nombre2);
-
-	this.nombre=nombre;
 	
-}*/
+	function Partida(nombre){
+		this.nombre=nombre;
+		this.tablero=undefined;
+		this.crearTablero=function(){
+			this.tablero=new Tablero();
+		}
+		this.asignarUsuario=function(usuario){
+			usuario.asignarPartida(this);
+			this.tablero.asignarUsuario(usuario);
+		}
+		this.crearTablero();
+	}
+
+	function Tablero(){
+		this.zonas=[];
+
+		this.agregarZona=function(zona){
+			this.zonas.push(zona);
+		}
+
+		this.crearZonas=function(){
+			this.agregarZona(new Zona("arriba"));
+			this.agregarZona(new Zona("abajo"));
+		}
+		this.asignarUsuario=function(usuario){
+			for(var i=0;i<this.zonas.length;i++){
+				if(this.zonas[i].libre){
+					usuario.agregarZona(this.zonas[i]);
+					this.zonas[i].libre=false;
+					break;
+				}
+			}
+		}
+
+		this.crearZonas();
+	}
 
 
 
+	function Zona(nombre){
+		this.nombre=nombre;
+		this.ataque=[];
+		this.mano=[];
+		this.mazo=[];
+		this.libre=true;
+		this.agregarAtaque=function(carta){
+			this.ataque.push(carta);
+		}
+		this.agregarMano=function(carta){
+			this.mano.push(carta);
+		}
+		this.agregarMazo=function(mazo){
+			this.mazo=mazo;
+		}
+	}
+
+
+	function Usuario(nombre){
+		this.nombre=nombre;
+		this.juego=undefined;
+		this.mazo=[];
+		this.mano=[];
+		this.zona=undefined;
+		this.partida=undefined;
+		this.asignarPartida=function(){
+			this.partida=partida;
+		}
+		this.agregarZona=function(zona){
+			this.zona=zona;
+		}
+
+		this.crearPartida=function(nombre){
+			this.juego.crearPartida(nombre,this);
+		}
+
+		this.eligePartida=function(nombre){
+			this.juego.asignarPartida(nombre,this);
+		}
+
+	}
+
+
+	function Carta(nombre,vidas,ataque,coste){
+		this.vidas=vidas;
+		this.ataque=ataque;
+		this.nombre=nombre;
+		this.coste=coste;
+	}
 
 module.exports.Juego=Juego;
 module.exports.Usuario=Usuario;
