@@ -46,7 +46,18 @@ describe("El juego de las cartas...", function() {
     expect(usr2.mazo.length).toEqual(30);  
   })
 
-  
+  it("Pepe crea una partida, juan la elige y se les asigna las zonas correspondientes", function() {
+    
+    juego.agregarUsuario(usr1);
+    juego.agregarUsuario(usr2);
+    usr1.crearPartida("prueba");
+    usr2.eligePartida("prueba");
+
+    expect(juego.usuarios[0].partida.nombre).toEqual("prueba");
+    expect(juego.usuarios[1].partida.nombre).toEqual("prueba");
+    expect(juego.usuarios[0].zona.nombre).toEqual("arriba");
+    expect(juego.usuarios[1].zona.nombre).toEqual("abajo");
+  })
 
   /*
   it("Agrego carta lobo al juego", function() {

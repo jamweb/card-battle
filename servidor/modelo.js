@@ -39,7 +39,7 @@ function Juego(){
 	this.crearPartida=function(nombre,usuario){
 		var partida = new Partida(nombre);
 		this.agregarPartida(partida);
-		usuario.asignarUsuario(usuario);
+		partida.asignarUsuario(usuario);
 	}
 
 
@@ -127,7 +127,7 @@ function Juego(){
 		this.mano=[];
 		this.zona=undefined;
 		this.partida=undefined;
-		this.asignarPartida=function(){
+		this.asignarPartida=function(partida){
 			this.partida=partida;
 		}
 		this.agregarZona=function(zona){
