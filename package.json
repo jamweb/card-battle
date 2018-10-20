@@ -18,7 +18,8 @@
   "homepage": "https://github.com/jamweb/card-battle#readme",
   "dependencies": {
     "express": "^4.16.3",
-    "jasmine-node": "^1.16.2"
+    "jasmine-node": "^1.16.2",
+    "underscore": "^1.9.1"
   },
   "devDependencies": {}
 }
